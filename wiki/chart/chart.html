@@ -630,7 +630,11 @@ body.readonly .canvas-wrap {
      vertical scrolling; a fixed viewport height would let a tall stage spill
      out of the card and overlap the footer. */
   height: auto;
-  min-height: 0;
+  /* Give the first fitCanvas() pass a real viewport-sized height. GitHub
+     Pages has no local saved stage state, so an entirely auto-sized wrapper
+     would otherwise be measured at padding height and shrink the chart to a
+     thumbnail. */
+  min-height: min(1100px, calc(100vh - 120px));
 }
 body.readonly .side {
   align-self: flex-start;
