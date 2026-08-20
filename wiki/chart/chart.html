@@ -5875,6 +5875,13 @@ function showDefaultSidebar() {
 }
 
 window.addEventListener('load', function() {
+  // A public viewer should open at the overview, even if the browser restores
+  // the scroll position from an earlier visit. The sidebar remains scrollable
+  // after this initial reset.
+  if (READONLY) {
+    var initialSide = document.getElementById('side-inner');
+    if (initialSide) initialSide.scrollTop = 0;
+  }
   populateBoxes();
   loadDeletedNodes();
   loadCustomNodes();
