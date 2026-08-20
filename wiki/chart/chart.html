@@ -626,12 +626,11 @@ body.readonly .chart-area {
 body.readonly .canvas-wrap {
   overflow: visible;
   flex: none;
-  /* The editor gets its height from the application viewport. In the public
-     viewer the body is page-scrolling, so establish a real drawing height or
-     fitCanvas() would scale the square stage down to the panel's content-free
-     height. Keep the chart readable while leaving the page free to scroll. */
-  height: min(1100px, calc(100vh - 160px));
-  min-height: min(1100px, calc(100vh - 160px));
+  /* Let the read-only card contain the scaled stage. The page supplies the
+     vertical scrolling; a fixed viewport height would let a tall stage spill
+     out of the card and overlap the footer. */
+  height: auto;
+  min-height: 0;
 }
 body.readonly .side {
   align-self: flex-start;
