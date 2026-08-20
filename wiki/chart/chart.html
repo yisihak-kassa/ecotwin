@@ -626,6 +626,12 @@ body.readonly .chart-area {
 body.readonly .canvas-wrap {
   overflow: visible;
   flex: none;
+  /* The editor gets its height from the application viewport. In the public
+     viewer the body is page-scrolling, so establish a real drawing height or
+     fitCanvas() would scale the square stage down to the panel's content-free
+     height. Keep the chart readable while leaving the page free to scroll. */
+  height: min(1100px, calc(100vh - 160px));
+  min-height: min(1100px, calc(100vh - 160px));
 }
 body.readonly .side {
   align-self: flex-start;
