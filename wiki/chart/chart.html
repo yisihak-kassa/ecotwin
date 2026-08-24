@@ -1174,7 +1174,7 @@ var DEFAULT_TEXT_OVERRIDES = {
   },
   "wsm": {
     "title": "Watershed model",
-    "badge": "In progress",
+    "badge": "Implemented",
     "nsub": "Distributed model"
   },
   "mon": {
@@ -1189,7 +1189,7 @@ var DEFAULT_TEXT_OVERRIDES = {
   },
   "tbm": {
     "title": "Transport model",
-    "badge": "In progress",
+    "badge": "Planned",
     "nsub": "Lagrangian particle tracking"
   },
   "eco": {
@@ -1234,11 +1234,11 @@ var DEFAULT_SIDEBAR_OVERRIDES = {
   "wsm": "# Source\nThe implemented watershed model is a simplified, computationally efficient tool for the preliminary assessment of river water quality, particularly suited to poorly monitored basins and stable low-flow periods. Starting from a digital elevation model (DEM), it automatically reconstructs the drainage network and its geometric and topological properties, representing it as a non-binary tree. Recursive procedures are then used to calculate discharge, hydraulic characteristics, mass and energy balances, and chemical processes throughout the network. The model estimates natural discharge from the drained area, while empirical relationships determine channel width, depth, velocity, and bed roughness. Users must provide meteorological data, water-quality parameters, and information about pollutant sources, discharges, withdrawals, and artificial diversions.\n\nPilotti, M. and Rosso, R. (1990) “SHELL: a general framework for modelling the distributed response of a drainage basin”, Proceedings of the Eighth International Conference on Computational Methods in Water Resources, Held in Venice, Italy, June 11-15, 1990.\n\nPilotti, M. Chapra S. C. and Valerio, G. (2019). Steady-State Distributed Modeling of Dissolved Oxygen in Data-Poor, Sewage Dominated River Systems Using Drainage Networks, Environmental Modeling and Software, 111,  153-169, [DOI](https://doi.org/10.1016/j.envsoft.2018.08.027).\n\n# Target inputs\n- gridded precipitation (mm/h)\n- air temperature (°C)\n- watershed initial conditions\n\n# Target outputs\n- discharge Q(t) (m³/s)\n- inflow temperature (°C)\n- suspended sediment (g/L)\n\n# Role\nHydrological forcing for AEM3D.",
   "tbm": "# Target inputs\n- Water velocities (m/s)\n- Water temperature (°C)\n- Turbidity (FTU)\n- Optical images of the surface waters\n- Water level (m)\n\n# Target outputs\n- Map of the surface distribution of the target variables (turbidity, macrophytes, floating debris etc.)\n\n# Role\nProvides the input to the module aimed at quantifying the ecosystem services",
   "eco": "# Status\nPlanned. Awaiting transport model outputs and water quality module coupling.\n\n# Target inputs\n- Wind speed and direction\n- Water velocities (m/s)\n- Water temperature (°C)\n- Turbidity map (FTU)\n- Maps of floating debris\n\n# Target output\n- Water level threshold and wind alerts\n- Areas with the highest probability of floating debris accumulation, enabling targeted clean-up activities.\n- Turbidity and temperature hotspots.",
-  "vda": "# Purpose\nCorrects the model with new observations. Receives observations from the monitoring network and NWP fields from ICON-2I, compares them against AEM3D simulated outputs, and — once a DA scheme is operational — feeds corrected state back into the model.\n\n# Implemented: observation comparison\nStation wind, radiation, and temperature (UNIBS) are compared against co-located ICON-2I NWP fields — quantifying systematic biases, especially for wind in complex topography. Simulated lake temperature profiles are compared against Castro station measurements to assess AEM3D thermal skill.\n\n- NWP bias (wind, radiation, T)\n- T profile skill score\n- stratification timing\n\n# Planned: data assimilation\nObserved lake surface temperatures and met variables will be used to correct AEM3D initial conditions — reducing drift between forecast cycles and improving restart state accuracy. Method to be defined (e.g. nudging, optimal interpolation, EnKF).\n\n# Outputs\nSkill scores and uncertainty bounds → Dashboard (so stakeholders see model reliability). Corrected initial conditions → AEM3D (closes the digital twin feedback loop).",
+  "vda": "# Purpose\nCorrects the model with new observations. Receives observations from the monitoring network and NWP fields from ICON-2I, compares them against AEM3D simulated outputs, and feeds corrected state back into the model once a DA scheme is operational.\n\n# Implemented: observation comparison\nStation wind, radiation, and temperature (UNIBS) are compared against co-located ICON-2I NWP fields, quantifying systematic biases, especially for wind in complex topography. Simulated lake temperature profiles are compared against Castro station measurements to assess AEM3D thermal skill.\n\n- NWP bias (wind, radiation, T)\n- T profile skill score\n- stratification timing\n\n# Planned: data assimilation\nObserved lake surface temperatures and met variables will be used to correct AEM3D initial conditions. This reduces drift between forecast cycles and improves restart state accuracy. Method to be defined (e.g. nudging, optimal interpolation, EnKF).\n\n# Outputs\nSkill scores and uncertainty bounds → Dashboard (so stakeholders see model reliability). Corrected initial conditions → AEM3D (closes the digital twin feedback loop).",
   "arc": "# Contents\n3-D temperature (°C)3-D velocity (m/s)water level (m a.s.l.)station depth profiles.\n\n# Structure\nNetCDF files per station, indexed by `forecast_reference_time` and `forecast_period`. Each twice-daily operational run appends one entry.\n\n# Role\nPersistent record of all operational forecast runs. Source for dashboard queries and validation against station observations.\n\n# Links\n[Wiki page](https://github.com/giuliavalerio/PROVA/wiki/Aquatic-Ecosystem-model-of-Lake-Iseo)\n",
-  "dash": "# Stack\nReact + Vite + D3.js frontend, FastAPI backend. Reads forecast archive NetCDF directly — no intermediate database for simulation data.\n\n# Current views\n- Depth–time temperature heatmap (click to select time/depth)\n- Vertical temperature profile at selected time\n- Surface temperature time series\n- Depth-specific temperature time series\n\n# Aggregation\nRaw / daily / weekly / monthly with avg / min / max / median — computed in browser.\n\n# Future additions\nDO profiles, turbidity, velocity maps, scenario comparison, threshold alerts.",
-  "stk": "# Status\nPlanned — engagement begins once dashboard prototype is ready.\n\n# Groups\n- Dam operators — real-time level forecasts, gate scenario testing\n- ARPA Lombardia — model outputs and validation data sharing\n- Water utilities — intake temperature and level forecasts\n- Municipal authorities — flood / drought early warning\n\n# Feedback loop\nDam gate control decisions translate back into AEM3D boundary conditions (offtake rates, outlet levels), closing the operational digital twin loop.",
-  "cnode_1780556617482": "# Status\nPlanned — statistical downscaling layer between the NWP model and the lake and watershed models.\n\n# Purpose\nRefine coarse ICON-2I fields toward local conditions the 2 km grid cannot resolve — for example wind channelling near Iseo — using monitoring-network observations as reference.\n\n# Approach\nStatistical / empirical correction. Method to be defined.",
+  "dash": "# Stack\nReact + Vite + D3.js frontend, FastAPI backend. Reads forecast archive NetCDF directly, without an intermediate database for simulation data.\n\n# Current views\n- Depth–time temperature heatmap (click to select time/depth)\n- Vertical temperature profile at selected time\n- Surface temperature time series\n- Depth-specific temperature time series\n\n# Aggregation\nRaw / daily / weekly / monthly with avg / min / max / median, all computed in the browser.\n\n# Future additions\nDO profiles, turbidity, velocity maps, scenario comparison, threshold alerts.",
+  "stk": "# Status\nPlanned. Engagement begins once the dashboard prototype is ready.\n\n# Groups\n- Dam operators: real-time level forecasts and gate scenario testing\n- ARPA Lombardia: model outputs and validation data sharing\n- Water utilities: intake temperature and level forecasts\n- Municipal authorities: flood and drought early warning\n\n# Feedback loop\nDam gate control decisions translate back into AEM3D boundary conditions (offtake rates, outlet levels), closing the operational digital twin loop.",
+  "cnode_1780556617482": "# Status\nPlanned. This statistical downscaling layer sits between the NWP model and the lake and watershed models.\n\n# Purpose\nRefine coarse ICON-2I fields toward local conditions the 2 km grid cannot resolve, such as wind channelling near Iseo, using monitoring-network observations as a reference.\n\n# Approach\nStatistical / empirical correction. Method to be defined.",
   "_overview_": "# How to use\nClick any box to view its description, inputs, outputs, and implementation status. Click again or press ✕ to return here."
 };
 var sidebarContent      = {};
@@ -1282,10 +1282,10 @@ var DEFAULT_STYLE_OVERRIDES = {
     "bg": "#f0eaf7"
   },
   "stk": {
-    "dot": "#d63384",
-    "border": "#f4b8d1",
-    "bg": "#fce8f0",
-    "label": "User layer"
+    "dot": "#70ad47",
+    "border": "#b0d888",
+    "bg": "#e8f5d8",
+    "label": "Water quality"
   },
   "cnode_1780556617482": {
     "dot": "#5b9bd5",
