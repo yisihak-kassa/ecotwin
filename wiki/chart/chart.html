@@ -166,6 +166,7 @@ svg#svgl {
 }
 .side-inner h4:first-of-type { margin-top: 0; }
 .side-inner p, .side-inner li { font-size: 13.5px; color: #444; line-height: 1.7; }
+.side-inner p { text-align: justify; }
 .side-inner ul { padding-left: 14px; }
 .side-inner li { margin-bottom: 3px; }
 .side-inner strong { color: #222; font-weight: 600; }
@@ -1303,7 +1304,7 @@ var styleOverrides = {};
 var deletedNodes = [];
 var customNodes  = {}; // id → { id, title, badge, bcls, nsub, x, y, w }
 
-var DEFAULT_CANVAS_SIZE = { "w": 1622, "h": 1231, "manual": false, "scale": 1 };
+var DEFAULT_CANVAS_SIZE = {"w":1622,"h":1231,"manual":false,"scale":1};
 var CANVAS_W = DEFAULT_CANVAS_SIZE.w, CANVAS_H = DEFAULT_CANVAS_SIZE.h;
 var canvasScale = 1;
 // Manual drawing-area resize (see wireStageResize()): dragging
@@ -1995,7 +1996,7 @@ var LABEL_FONT_SIZE_KEY  = 'lake_iseo_chart_label_fs_v2';
 var NTITLE_FONT_SIZE_KEY = 'lake_iseo_chart_ntitle_fs_v2';
 var NSUB_FONT_SIZE_KEY   = 'lake_iseo_chart_nsub_fs_v2';
 var BADGE_FONT_SIZE_KEY  = 'lake_iseo_chart_badge_fs_v2';
-var DEFAULT_FONT_SIZES = { "label": 20, "ntitle": 20, "nsub": 20, "badge": 20 };
+var DEFAULT_FONT_SIZES = {"label":22,"ntitle":22,"nsub":20,"badge":20};
 var labelFontSize  = DEFAULT_FONT_SIZES.label;
 var ntitleFontSize = DEFAULT_FONT_SIZES.ntitle;
 var nsubFontSize   = DEFAULT_FONT_SIZES.nsub;
@@ -5221,7 +5222,7 @@ function commitLegendLabel(t) {
 // ---------------------------------------------------------------------------
 var SPLIT_KEY = 'lake_iseo_chart_split_v2';
 var SPLIT_MIN = 200, SPLIT_MAX = 640;
-var DEFAULT_SPLIT_STATE = { "w": null };
+var DEFAULT_SPLIT_STATE = {"w":369};
 var splitState = JSON.parse(JSON.stringify(DEFAULT_SPLIT_STATE));
 var splitDrag = null;
 function loadSplitState() {
