@@ -10,8 +10,8 @@
 
 :root {
   --ntitle-fs: 20px;
-  --nsub-fs: 14px;
-  --badge-fs: 12px;
+  --nsub-fs: 20px;
+  --badge-fs: 20px;
 }
 
 html { height: 100%; }
@@ -77,8 +77,8 @@ footer {
   position: absolute;
   left: 0;
   top: 0;
-  width: 1100px;  /* kept in sync with CANVAS_W/CANVAS_H; fitCanvas() overrides */
-  height: 1100px;
+  width: 1622px;  /* kept in sync with DEFAULT_CANVAS_SIZE; fitCanvas() overrides */
+  height: 1231px;
   flex-shrink: 0;
   user-select: none;
 }
@@ -634,7 +634,7 @@ body.readonly .canvas-wrap {
      Pages has no local saved stage state, so an entirely auto-sized wrapper
      would otherwise be measured at padding height and shrink the chart to a
      thumbnail. */
-  min-height: min(1100px, calc(100vh - 120px));
+  min-height: min(1231px, calc(100vh - 120px));
 }
 body.readonly .side {
   align-self: flex-start;
@@ -740,8 +740,8 @@ body.readonly .side {
       <span class="tb-label">Label</span>
       <select id="label-font-size">
         <option>8</option><option>9</option><option>10</option><option>11</option>
-        <option selected>11.5</option><option>12</option><option>13</option>
-        <option>14</option><option>16</option><option>18</option><option>20</option>
+        <option>11.5</option><option>12</option><option>13</option>
+        <option>14</option><option>16</option><option>18</option><option selected>20</option>
         <option>22</option><option>24</option><option>28</option><option>36</option>
         <option>48</option><option>72</option>
       </select>
@@ -751,7 +751,7 @@ body.readonly .side {
       <select id="ntitle-font-size">
         <option>8</option><option>9</option><option>10</option><option>11</option>
         <option>11.5</option><option>12</option><option>13</option>
-        <option>14</option><option selected>16</option><option>18</option><option>20</option>
+        <option>14</option><option>16</option><option>18</option><option selected>20</option>
         <option>22</option><option>24</option><option>28</option><option>36</option>
         <option>48</option><option>72</option>
       </select>
@@ -761,7 +761,7 @@ body.readonly .side {
       <select id="nsub-font-size">
         <option>8</option><option>9</option><option>10</option><option>11</option>
         <option>11.5</option><option>12</option><option>13</option>
-        <option selected>14</option><option>16</option><option>18</option><option>20</option>
+        <option>14</option><option>16</option><option>18</option><option selected>20</option>
         <option>22</option><option>24</option><option>28</option><option>36</option>
         <option>48</option><option>72</option>
       </select>
@@ -770,8 +770,8 @@ body.readonly .side {
       <span class="tb-label">Badge</span>
       <select id="badge-font-size">
         <option>8</option><option>9</option><option>10</option><option>11</option>
-        <option>11.5</option><option selected>12</option><option>13</option>
-        <option>14</option><option>16</option><option>18</option><option>20</option>
+        <option>11.5</option><option>12</option><option>13</option>
+        <option>14</option><option>16</option><option>18</option><option selected>20</option>
         <option>22</option><option>24</option><option>28</option><option>36</option>
         <option>48</option><option>72</option>
       </select>
@@ -1101,11 +1101,11 @@ var PUBLISHED = true;
 // and the legend toggle all still work. Append ?view=1 here to preview it.
 var READONLY = PUBLISHED || /[?&]view=1/.test(location.search);
 
-// Read-only mode can read the current layout state so the local viewer matches
-// the editable chart, but it never writes changes back. A fresh GitHub Pages
-// origin has no saved state and therefore falls back to the baked DEFAULT_*
-// blocks.
+// Read-only/shared views use only the state baked into this file. Editable
+// views can still keep unsaved work in localStorage until Save writes it into
+// the DEFAULT_* blocks below.
 function lsGet(k) {
+  if (READONLY) return null;
   try { return localStorage.getItem(k); } catch (e) { return null; }
 }
 function lsSet(k, v) {
@@ -1155,14 +1155,16 @@ function applyReadOnly() {
 applyReadOnly();
 
 var NODE_IDS = ['icon','mon','aem','wsm','tbm','eco','vda','arc','dash','stk'];
-var STORAGE_KEY = 'lake_iseo_chart_v1';
-var LABEL_STORAGE_KEY = 'lake_iseo_chart_labels_v1';
-var DELETED_NODES_KEY  = 'lake_iseo_chart_deleted_v1';
-var CUSTOM_NODES_KEY   = 'lake_iseo_chart_custom_v1';
+// v2 invalidates stale browser-only layouts. In particular, an older Edge
+// state contained rotated boxes even though the authoritative file does not.
+var STORAGE_KEY = 'lake_iseo_chart_v2';
+var LABEL_STORAGE_KEY = 'lake_iseo_chart_labels_v2';
+var DELETED_NODES_KEY  = 'lake_iseo_chart_deleted_v2';
+var CUSTOM_NODES_KEY   = 'lake_iseo_chart_custom_v2';
 var DEFAULT_DELETED_NODES = ["cnode_1783320985926","cnode_1780556617482","arc","dash"];
 var DEFAULT_CUSTOM_NODES = {};
-var TEXT_STORAGE_KEY = 'lake_iseo_chart_text_v1';
-var TEXT_CONTENT_REVISION_KEY = 'lake_iseo_chart_text_content_revision_v1';
+var TEXT_STORAGE_KEY = 'lake_iseo_chart_text_v2';
+var TEXT_CONTENT_REVISION_KEY = 'lake_iseo_chart_text_content_revision_v2';
 var DEFAULT_TEXT_OVERRIDES = {
   "aem": {
     "title": "Lake model",
@@ -1217,20 +1219,20 @@ var DEFAULT_TEXT_OVERRIDES = {
 };
 var textOverrides = {};
 var nodeTextEditId = null;
-var STYLE_STORAGE_KEY   = 'lake_iseo_chart_style_v1';
-var SIDEBAR_KEY         = 'lake_iseo_chart_sidebar_v1';
-var SIDEBAR_CONTENT_REVISION_KEY = 'lake_iseo_chart_sidebar_content_revision_v1';
-var AUTHORITATIVE_CONTENT_REVISION = 'text-chart-2026-08-24-v2';
+var STYLE_STORAGE_KEY   = 'lake_iseo_chart_style_v2';
+var SIDEBAR_KEY         = 'lake_iseo_chart_sidebar_v2';
+var SIDEBAR_CONTENT_REVISION_KEY = 'lake_iseo_chart_sidebar_content_revision_v2';
+var AUTHORITATIVE_CONTENT_REVISION = 'text-chart-2026-08-24-v3';
 var AUTHORITATIVE_SIDEBAR_IDS = ['icon','mon','aem','wsm','tbm','eco'];
 // Sidebar text edited in the browser; "Commit layout" bakes it in here so the
 // edits survive other machines/browsers (localStorage alone does not).
 var DEFAULT_SIDEBAR_OVERRIDES = {
   "icon": "# Source\nMeteoHub's ICON-2I regional NWP model, 2.2 km horizontal resolution over Italy. Issued 2× daily (00, 12 UTC), 72-hour forecast horizon. Accessed via MeteoHub API.\n\nICON-2I model:\n- [ItaliaMeteo short-term forecasts](https://www.agenziaitaliameteo.it/en/meteorology/forecasts/short-term-forecasts-italy/)\n- [ICON model](https://www.icon-model.org/)\n\nWRF model:\n- [MISTRAL WRF forecasts](https://mistral-cat.hpc.cineca.it/dataset/previsioni-meteorologiche-modello-wrf)\n- [WRF users](https://www2.mmm.ucar.edu/wrf/users/)\n\n# Target outputs\n- Air temperature at 2m (°C)\n- Wind speed at 10m (m/s)\n- Wind direction at 10m (°)\n- Shortwave radiation at surface (W/m²)\n- Cloud cover (%)\n- Precipitation (mm/h)\n- Relative humidity (%)\n- Pressure at surface (hPa)\n\n# Role\nAtmospheric forcing for AEM3D. Also displayed in a user-friendly way to stakeholders on the dashboard.\n\n# Format\nGRIB2 download → NetCDF extraction (cfgrib) → AEM3D MET `.dat` files. Bilinear interpolation to the lake grid. Filtered by forecast reference time.",
-  "mon": "# Source\n1. Lake stations operated by the University of Brescia: Lake floating station (LS), Castro (eastern shore, SS1) and Iseo (southern shore SS2). Accessed via FTP.\n\nLS (1/min-1/10min): wind speed and direction (1/min), lake temperature profile (1/10min), net total radiation (1/min). Details at: [LS station](https://hydraulics.unibs.it/hydraulics/il-monitoraggio-del-lago-diseo/lsd/)\n\nSS1 (1/min): wind speed and direction, lake's level, air temperature and relative humidity, short wave radiation, atmospheric pressure. Details at: [SS1 station](https://hydraulics.unibs.it/hydraulics/il-monitoraggio-del-lago-diseo/ss1/)\n\nSS2 (1/min):  wind speed and direction, lake's level, air temperature and relative humidity, short wave radiation, atmospheric pressure. Details at: [SS2 station](https://hydraulics.unibs.it/hydraulics/il-monitoraggio-del-lago-diseo/ss2/)\n\n2. River gauge (ARPA Lombardia)\n\nDarfo (1/10 min): Hydrometric level gauge on the Oglio River at Darfo, upstream of Lake Iseo. Level converted to discharge via a calibrated rating curve. Data are available at: [ARPA Lombardia data request](https://www.arpalombardia.it/temi-ambientali/meteo-e-clima/form-richiesta-dati/)\n\n3. Remote observations\n\n- Optical images provided by Sentinel 2 and Sentinel 3 (≈1/2 days)\n- Webcam images framing the northern part of the lake (1/15min).\n\n# Target outputs\n- Wind speed (m/s) and direction (°)\n- Air temperature (°C) and relative humidity (%)\n- Short and long wave radiation (W/m2)\n- Water temperature profile along the water column (°C)\n- River discharge (m3/s)\n- Optical images of the surface of the lake\n\n# Roles\n**NWP bias assessment:** Station wind, radiation, and temperature are compared against ICON-2I fields at the same locations — reveals systematic NWP biases driven by local topography not resolved by the 2 km grid and allow a proper elaboration of the atmosphetic forcing to optimize the simulation of lake circulation\n\n**Initial conditions:** Water temperature profile is used to initialize AEM3D and remote observations are elaborated by specific models to provide the initial debris distribution for the transport models.\n\n**Model evaluation:** Observed lake surface temperatures are compared against AEM3D simulated profiles to assess model performance.",
+  "mon": "# Source\n1. Lake stations operated by the University of Brescia: Lake floating station (LS), Castro (eastern shore, SS1) and Iseo (southern shore SS2). Accessed via FTP.\n\nLS (1/min-1/10min): wind speed and direction (1/min), lake temperature profile (1/10min), net total radiation (1/min). Details at: [LS station](https://hydraulics.unibs.it/hydraulics/il-monitoraggio-del-lago-diseo/lsd/)\n\nSS1 (1/min): wind speed and direction, lake's level, air temperature and relative humidity, short wave radiation, atmospheric pressure. Details at: [SS1 station](https://hydraulics.unibs.it/hydraulics/il-monitoraggio-del-lago-diseo/ss1/)\n\nSS2 (1/min):  wind speed and direction, lake's level, air temperature and relative humidity, short wave radiation, atmospheric pressure. Details at: [SS2 station](https://hydraulics.unibs.it/hydraulics/il-monitoraggio-del-lago-diseo/ss2/)\n\n2. River gauge (ARPA Lombardia)\n\nDarfo (1/10 min): Hydrometric level gauge on the Oglio River at Darfo, upstream of Lake Iseo. Level converted to discharge via a calibrated rating curve. Data are available at: [ARPA Lombardia data request](https://www.arpalombardia.it/temi-ambientali/meteo-e-clima/form-richiesta-dati/)\n\n3. Remote observations\n\n- Optical images provided by Sentinel 2 and Sentinel 3 (≈1/2 days)\n- Webcam images framing the northern part of the lake (1/15min).\n\n# Target outputs\n- Wind speed (m/s) and direction (°)\n- Air temperature (°C) and relative humidity (%)\n- Short and long wave radiation (W/m2)\n- Water temperature profile along the water column (°C)\n- River discharge (m3/s)\n- Optical images of the surface of the lake\n\n# Roles\n**NWP bias assessment:** Station wind, radiation, and temperature are compared against ICON-2I fields at the same locations. This reveals systematic NWP biases driven by local topography not resolved by the 2 km grid and allow a proper elaboration of the atmosphetic forcing to optimize the simulation of lake circulation\n\n**Initial conditions:** Water temperature profile is used to initialize AEM3D and remote observations are elaborated by specific models to provide the initial debris distribution for the transport models.\n\n**Model evaluation:** Observed lake surface temperatures are compared against AEM3D simulated profiles to assess model performance.",
   "aem": "# Source\nAEM3D (Aquatic Ecosystem Model 3D) is a numerical modeling tool used to simulate hydrodynamic and thermodynamic processes in aquatic systems. AEM3D accounts for environmental forcing such as inflows, thermal and mechanical fluxes at the surface.\n\nFull documentation is made available at [AEM3D documentation](https://www.hydronumerics.com.au/software/aquatic-ecosystem-model-3d)\n\n# Target inputs\n- Lake's bathymetry\n- Air temperature at 2m (°C)\n- Wind speed at 10m (m/s)\n- Wind direction at 10m (°)\n- Shortwave radiation at surface (W/m²)\n- Cloud cover (%)\n- Precipitation (mm/h)\n- Relative humidity (%)\n- Inflows discharge (m3/s), temperature (°C) and turbidity (FTU)\n- Outflow discharge (m3/s)\n- Initial condition for temperature (°C) and turbidity (FTU)\n\n# Target outputs\n- Water velocities (m/s)\n- Water temperature (°C)\n- Turbidity (FTU)\n- Water level (m)\n\n# Format and operational mode\nTwice-daily forecast cycle driven by ICON-2I (00 and 12 UTC). Two-phase execution: state advance to next issue time, then 72-hour forecast product. Warm-start from restart file preserves thermal stratification.\n\n# Role\nProvides the input to the transport model and to the module aimed at quantifying the ecosystem services.",
   "wsm": "# Source\nThe implemented watershed model is a simplified, computationally efficient tool for the preliminary assessment of river water quality, particularly suited to poorly monitored basins and stable low-flow periods. Starting from a digital elevation model (DEM), it automatically reconstructs the drainage network and its geometric and topological properties, representing it as a non-binary tree. Recursive procedures are then used to calculate discharge, hydraulic characteristics, mass and energy balances, and chemical processes throughout the network. The model estimates natural discharge from the drained area, while empirical relationships determine channel width, depth, velocity, and bed roughness. Users must provide meteorological data, water-quality parameters, and information about pollutant sources, discharges, withdrawals, and artificial diversions.\n\nPilotti, M. and Rosso, R. (1990) “SHELL: a general framework for modelling the distributed response of a drainage basin”, Proceedings of the Eighth International Conference on Computational Methods in Water Resources, Held in Venice, Italy, June 11-15, 1990.\n\nPilotti, M. Chapra S. C. and Valerio, G. (2019). Steady-State Distributed Modeling of Dissolved Oxygen in Data-Poor, Sewage Dominated River Systems Using Drainage Networks, Environmental Modeling and Software, 111,  153-169, [DOI](https://doi.org/10.1016/j.envsoft.2018.08.027).\n\n# Target inputs\n- gridded precipitation (mm/h)\n- air temperature (°C)\n- watershed initial conditions\n\n# Target outputs\n- discharge Q(t) (m³/s)\n- inflow temperature (°C)\n- suspended sediment (g/L)\n\n# Role\nHydrological forcing for AEM3D.",
   "tbm": "# Target inputs\n- Water velocities (m/s)\n- Water temperature (°C)\n- Turbidity (FTU)\n- Optical images of the surface waters\n- Water level (m)\n\n# Target outputs\n- Map of the surface distribution of the target variables (turbidity, macrophytes, floating debris etc.)\n\n# Role\nProvides the input to the module aimed at quantifying the ecosystem services",
-  "eco": "# Status\nPlanned — awaiting transport model outputs and water quality module coupling.\n\n# Target inputs\n- Wind speed and direction\n- Water velocities (m/s)\n- Water temperature (°C)\n- Turbidity map (FTU)\n- Maps of floating debris\n\n# Target output\n- Water level threshold and wind alerts\n- Areas with the highest probability of floating debris accumulation, enabling targeted clean-up activities.\n- Turbidity and temperature hotspots.",
+  "eco": "# Status\nPlanned. Awaiting transport model outputs and water quality module coupling.\n\n# Target inputs\n- Wind speed and direction\n- Water velocities (m/s)\n- Water temperature (°C)\n- Turbidity map (FTU)\n- Maps of floating debris\n\n# Target output\n- Water level threshold and wind alerts\n- Areas with the highest probability of floating debris accumulation, enabling targeted clean-up activities.\n- Turbidity and temperature hotspots.",
   "vda": "# Purpose\nCorrects the model with new observations. Receives observations from the monitoring network and NWP fields from ICON-2I, compares them against AEM3D simulated outputs, and — once a DA scheme is operational — feeds corrected state back into the model.\n\n# Implemented: observation comparison\nStation wind, radiation, and temperature (UNIBS) are compared against co-located ICON-2I NWP fields — quantifying systematic biases, especially for wind in complex topography. Simulated lake temperature profiles are compared against Castro station measurements to assess AEM3D thermal skill.\n\n- NWP bias (wind, radiation, T)\n- T profile skill score\n- stratification timing\n\n# Planned: data assimilation\nObserved lake surface temperatures and met variables will be used to correct AEM3D initial conditions — reducing drift between forecast cycles and improving restart state accuracy. Method to be defined (e.g. nudging, optimal interpolation, EnKF).\n\n# Outputs\nSkill scores and uncertainty bounds → Dashboard (so stakeholders see model reliability). Corrected initial conditions → AEM3D (closes the digital twin feedback loop).",
   "arc": "# Contents\n3-D temperature (°C)3-D velocity (m/s)water level (m a.s.l.)station depth profiles.\n\n# Structure\nNetCDF files per station, indexed by `forecast_reference_time` and `forecast_period`. Each twice-daily operational run appends one entry.\n\n# Role\nPersistent record of all operational forecast runs. Source for dashboard queries and validation against station observations.\n\n# Links\n[Wiki page](https://github.com/giuliavalerio/PROVA/wiki/Aquatic-Ecosystem-model-of-Lake-Iseo)\n",
   "dash": "# Stack\nReact + Vite + D3.js frontend, FastAPI backend. Reads forecast archive NetCDF directly — no intermediate database for simulation data.\n\n# Current views\n- Depth–time temperature heatmap (click to select time/depth)\n- Vertical temperature profile at selected time\n- Surface temperature time series\n- Depth-specific temperature time series\n\n# Aggregation\nRaw / daily / weekly / monthly with avg / min / max / median — computed in browser.\n\n# Future additions\nDO profiles, turbidity, velocity maps, scenario comparison, threshold alerts.",
@@ -1301,7 +1303,8 @@ var styleOverrides = {};
 var deletedNodes = [];
 var customNodes  = {}; // id → { id, title, badge, bcls, nsub, x, y, w }
 
-var CANVAS_W = 1100, CANVAS_H = 1100;
+var DEFAULT_CANVAS_SIZE = { "w": 1622, "h": 1231, "manual": false, "scale": 1 };
+var CANVAS_W = DEFAULT_CANVAS_SIZE.w, CANVAS_H = DEFAULT_CANVAS_SIZE.h;
 var canvasScale = 1;
 // Manual drawing-area resize (see wireStageResize()): dragging
 // #stage-resize-handle changes CANVAS_W/CANVAS_H directly (the logical
@@ -1310,8 +1313,8 @@ var canvasScale = 1;
 // (manualSizeScale) instead of being recomputed to fit canvas-wrap, so
 // existing content keeps its on-screen size; the extra logical space just
 // shows up as blank canvas, scrollable via canvas-wrap's overflow:auto.
-var manualSizeActive = false;
-var manualSizeScale = 1;
+var manualSizeActive = !!DEFAULT_CANVAS_SIZE.manual;
+var manualSizeScale = DEFAULT_CANVAS_SIZE.scale || 1;
 // Keep-clear band, in logical canvas units, between the chart area's boundary
 // line and its content. Node drags/resizes and dragged waypoints/labels are
 // confined to the rect it leaves (see canvasContentRect()), and
@@ -1645,7 +1648,7 @@ async function getWritableHandle(statusCb) {
 }
 
 // ── Arrow builder globals ──────────────────────────────────────────────────
-var ARROWS_KEY = 'lake_iseo_chart_arrows_v1';
+var ARROWS_KEY = 'lake_iseo_chart_arrows_v2';
 var DEFAULT_ARROWS = [
   {
     "id": "arrow_1787157009436",
@@ -1988,14 +1991,15 @@ var DEFAULT_ARROWS = [
 ];
 var arrows = [];
 
-var LABEL_FONT_SIZE_KEY  = 'lake_iseo_chart_label_fs_v1';
-var NTITLE_FONT_SIZE_KEY = 'lake_iseo_chart_ntitle_fs_v1';
-var NSUB_FONT_SIZE_KEY   = 'lake_iseo_chart_nsub_fs_v1';
-var BADGE_FONT_SIZE_KEY  = 'lake_iseo_chart_badge_fs_v1';
-var labelFontSize  = 11.5;
-var ntitleFontSize = 20;
-var nsubFontSize   = 14;
-var badgeFontSize  = 12;
+var LABEL_FONT_SIZE_KEY  = 'lake_iseo_chart_label_fs_v2';
+var NTITLE_FONT_SIZE_KEY = 'lake_iseo_chart_ntitle_fs_v2';
+var NSUB_FONT_SIZE_KEY   = 'lake_iseo_chart_nsub_fs_v2';
+var BADGE_FONT_SIZE_KEY  = 'lake_iseo_chart_badge_fs_v2';
+var DEFAULT_FONT_SIZES = { "label": 20, "ntitle": 20, "nsub": 20, "badge": 20 };
+var labelFontSize  = DEFAULT_FONT_SIZES.label;
+var ntitleFontSize = DEFAULT_FONT_SIZES.ntitle;
+var nsubFontSize   = DEFAULT_FONT_SIZES.nsub;
+var badgeFontSize  = DEFAULT_FONT_SIZES.badge;
 var arrowEditColor = null; // set by buildArrowEditColorSwatches() after ARROW_COLORS is defined
 var addNodeSelectedColor = null;
 
@@ -2782,8 +2786,8 @@ function addResizeHandles() {
 }
 
 
-// Saves the whole diagram state (layout, nodes, text/style/sidebar overrides
-// AND arrows) back into this file in one write.
+// Saves the whole diagram state, including font sizes, sidebar width and the
+// logical drawing extent, back into this file in one write.
 async function saveAll() {
   if (READONLY) return;
   var btn = document.getElementById('save-btn');
@@ -2803,6 +2807,30 @@ async function saveAll() {
     });
     var file = await fileHandle.getFile();
     var text = await file.text();
+    var fontData = {
+      label: labelFontSize,
+      ntitle: ntitleFontSize,
+      nsub: nsubFontSize,
+      badge: badgeFontSize
+    };
+    var canvasData = {
+      w: CANVAS_W,
+      h: CANVAS_H,
+      manual: manualSizeActive,
+      scale: manualSizeScale
+    };
+    text = text.replace(
+      /var DEFAULT_CANVAS_SIZE\s*=\s*\{[\s\S]*?\};/,
+      'var DEFAULT_CANVAS_SIZE = ' + JSON.stringify(canvasData) + ';'
+    );
+    text = text.replace(
+      /var DEFAULT_FONT_SIZES\s*=\s*\{[\s\S]*?\};/,
+      'var DEFAULT_FONT_SIZES = ' + JSON.stringify(fontData) + ';'
+    );
+    text = text.replace(
+      /var DEFAULT_SPLIT_STATE\s*=\s*\{[\s\S]*?\};/,
+      'var DEFAULT_SPLIT_STATE = ' + JSON.stringify(splitState) + ';'
+    );
     text = text.replace(
       /var DEFAULT_POSITIONS = \{[\s\S]*?\};/,
       'var DEFAULT_POSITIONS = ' + JSON.stringify(posData, null, 2) + ';'
@@ -4865,7 +4893,7 @@ var NODE_COLOR_PALETTE = [
 // stays inside the canvas and on-screen position matches export; they also
 // survive window resizes. null fx/fy = default anchor (bottom-center).
 // ---------------------------------------------------------------------------
-var LEGEND_KEY = 'lake_iseo_chart_legend_v1';
+var LEGEND_KEY = 'lake_iseo_chart_legend_v2';
 var DEFAULT_LEGEND = {
   "visible": true,
   "fx": 0.3447666202863985,
@@ -5191,9 +5219,10 @@ function commitLegendLabel(t) {
 // takes whatever width remains. fitCanvas()/applyLegendPosition() re-run on
 // every drag frame so the diagram scale and legend position track live.
 // ---------------------------------------------------------------------------
-var SPLIT_KEY = 'lake_iseo_chart_split_v1';
+var SPLIT_KEY = 'lake_iseo_chart_split_v2';
 var SPLIT_MIN = 200, SPLIT_MAX = 640;
-var splitState = { w: null };
+var DEFAULT_SPLIT_STATE = { "w": null };
+var splitState = JSON.parse(JSON.stringify(DEFAULT_SPLIT_STATE));
 var splitDrag = null;
 function loadSplitState() {
   try {
@@ -5257,7 +5286,7 @@ function wireSplit() {
 // blank canvas past the existing content, reachable via canvas-wrap's
 // overflow:auto scrollbars if it doesn't fit the window.
 // ---------------------------------------------------------------------------
-var STAGE_SIZE_KEY = 'lake_iseo_chart_stagesize_v1';
+var STAGE_SIZE_KEY = 'lake_iseo_chart_stagesize_v2';
 var STAGE_SIZE_MIN = 300;
 var stageResizeDrag = null;
 function loadStageSize() {
@@ -5268,14 +5297,19 @@ function loadStageSize() {
     if (d && d.w && d.h) {
       CANVAS_W = d.w;
       CANVAS_H = d.h;
-      manualSizeActive = true;
+      manualSizeActive = d.manual == null ? true : !!d.manual;
       manualSizeScale = d.scale || 1;
     }
   } catch(e) {}
 }
 function saveStageSize() {
   try {
-    lsSet(STAGE_SIZE_KEY, JSON.stringify({ w: CANVAS_W, h: CANVAS_H, scale: manualSizeScale }));
+    lsSet(STAGE_SIZE_KEY, JSON.stringify({
+      w: CANVAS_W,
+      h: CANVAS_H,
+      manual: manualSizeActive,
+      scale: manualSizeScale
+    }));
   } catch(e) {}
 }
 function onStageResizeMouseDown(e) {
