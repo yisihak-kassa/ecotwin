@@ -1011,7 +1011,7 @@ body.readonly .side {
 //             (bcls controls the colour: 'impl' | 'prog' | 'plan')
 //   nsub    — DEFAULT two-line subtitle shown below the box title
 //
-// title/badge/nsub are resolved at runtime with precedence
+// title/badge/nsub/status are resolved at runtime with precedence
 //   textOverrides → customNodes → DATA   (see resolvedNodeMeta()).
 // The sidebar BODY no longer lives here — it is markdown in the
 // DEFAULT_SIDEBAR_OVERRIDES block below, editable from the sidebar Edit pane.
@@ -1396,21 +1396,21 @@ var DEFAULT_POSITIONS = {
   },
   "aem": {
     "x": 673,
-    "y": 566,
+    "y": 568,
     "w": 300,
-    "h": 110
+    "h": 98
   },
   "wsm": {
     "x": 91,
     "y": 552,
     "w": 300,
-    "h": 110
+    "h": 114
   },
   "tbm": {
-    "x": 1222,
-    "y": 575,
+    "x": 1219,
+    "y": 572,
     "w": 320,
-    "h": 110
+    "h": 116
   },
   "eco": {
     "x": 679,
@@ -1428,7 +1428,7 @@ var DEFAULT_POSITIONS = {
     "x": 677,
     "y": 963,
     "w": 302,
-    "h": 112
+    "h": 98
   }
 };
 
@@ -1469,48 +1469,48 @@ var DEFAULT_LABEL_POSITIONS = {
     "r": 0
   },
   "arrow_1787157290240_lbl": {
-    "x": 990.3193160026419,
-    "y": 449.0103359918524,
+    "x": 990.3192812776709,
+    "y": 450.1249414056597,
     "r": 0
   },
   "arrow_1787157559462_lbl": {
-    "x": 1154.2273147060894,
-    "y": 844.9434855838585,
+    "x": 1150.847167980962,
+    "y": 844.93992522428,
     "r": 0
   },
   "arrow_1787158048524_lbl": {
     "x": 443.71532846715326,
-    "y": 734.0531863080621,
+    "y": 729.5832608559182,
     "r": 0
   },
   "arrow_1787158250409_lbl": {
-    "x": 929.8780815663779,
-    "y": 722.5271555907535,
+    "x": 929.8780762244156,
+    "y": 718.0532570925507,
     "r": 0
   },
   "arrow_1787158357139_lbl": {
-    "x": 1097.0218816047168,
-    "y": 678.9109748821082,
+    "x": 1095.5219232548416,
+    "y": 674.5650543774183,
     "r": 0
   },
   "arrow_1787158858606_lbl": {
-    "x": 357.5781145528489,
-    "y": 314.18881214422595,
+    "x": 357.5781123573022,
+    "y": 314.18881214409424,
     "r": 0
   },
   "arrow_1787158917851_lbl": {
-    "x": 686.7651011535888,
-    "y": 448.93219769610107,
+    "x": 686.7650882201626,
+    "y": 450.04680310990835,
     "r": 0
   },
   "arrow_1787158961352_lbl": {
-    "x": 1172.747001509674,
-    "y": 310.147382794064,
+    "x": 1169.7783161712712,
+    "y": 310.14734634831314,
     "r": 0
   },
   "arrow_1787162081123_lbl": {
     "x": 502.786287349506,
-    "y": 643.5633056886284,
+    "y": 641.8276514605151,
     "r": 0
   },
   "arrow_1787158152295_lbl": {
@@ -1707,7 +1707,7 @@ var DEFAULT_ARROWS = [
     "id": "arrow_1787157290240",
     "src": {
       "node": "vda",
-      "fx": 0.7868413164072597,
+      "fx": 0.7868410966289924,
       "fy": 1
     },
     "dst": {
@@ -1738,8 +1738,8 @@ var DEFAULT_ARROWS = [
     },
     "waypoints": [
       [
-        1327.7471546762927,
-        501.3057622349669
+        1324.7472522762,
+        502.67966122109465
       ]
     ],
     "color": "#5b9bd5",
@@ -1764,8 +1764,8 @@ var DEFAULT_ARROWS = [
     },
     "waypoints": [
       [
-        262.3874117858122,
-        501.54954523413176
+        262.3874067349533,
+        502.9265083648257
       ]
     ],
     "color": "#5b9bd5",
@@ -1790,7 +1790,7 @@ var DEFAULT_ARROWS = [
     },
     "waypoints": [
       [
-        1335.9037983626854,
+        1332.903894794915,
         812.5773854499316
       ]
     ],
@@ -1817,7 +1817,7 @@ var DEFAULT_ARROWS = [
     "waypoints": [
       [
         582.2189781021898,
-        1032.4575685870007
+        1023.5212899825588
       ],
       [
         582.2189781021898,
@@ -1862,7 +1862,7 @@ var DEFAULT_ARROWS = [
     },
     "dst": {
       "node": "eco",
-      "fx": 0.5129872956718049,
+      "fx": 0.5129872600587176,
       "fy": 0
     },
     "waypoints": [],
@@ -1879,12 +1879,12 @@ var DEFAULT_ARROWS = [
     "src": {
       "node": "aem",
       "fx": 1,
-      "fy": 0.6341906530587206
+      "fy": 0.6389099336242218
     },
     "dst": {
       "node": "tbm",
       "fx": 0,
-      "fy": 0.551519948159921
+      "fy": 0.5081977437491882
     },
     "waypoints": [],
     "color": "#ed7d31",
@@ -1909,7 +1909,7 @@ var DEFAULT_ARROWS = [
     },
     "waypoints": [
       [
-        228.429340593269,
+        228.4293362021756,
         286.2275856106653
       ]
     ],
@@ -1930,7 +1930,7 @@ var DEFAULT_ARROWS = [
     },
     "dst": {
       "node": "vda",
-      "fx": 0.38704777219094466,
+      "fx": 0.38704769033382785,
       "fy": 1
     },
     "waypoints": [],
@@ -1956,7 +1956,7 @@ var DEFAULT_ARROWS = [
     },
     "waypoints": [
       [
-        1358.334568500266,
+        1355.334661721382,
         284.1366493246453
       ]
     ],
@@ -1973,7 +1973,7 @@ var DEFAULT_ARROWS = [
     "src": {
       "node": "wsm",
       "fx": 1,
-      "fy": 0.593400960188691
+      "fy": 0.5659633733368779
     },
     "dst": {
       "node": "aem",
@@ -2885,6 +2885,23 @@ var BADGE_STYLE = {
   src:  'background:#c4e4c4;color:#1a5c1a'
 };
 
+// Status is part of the saved node metadata, not just the badge text. Infer it
+// from the three standard labels for older browser overrides that predate the
+// persisted bcls field; unfamiliar labels retain the node's existing state.
+function statusClassForBadge(label) {
+  var normalized = String(label == null ? '' : label).trim().toLowerCase().replace(/\s+/g, ' ');
+  if (normalized === 'implemented') return 'impl';
+  if (normalized === 'in progress') return 'prog';
+  if (normalized === 'planned') return 'plan';
+  return '';
+}
+
+function applyNodeStatusClass(el, bcls) {
+  if (!el) return;
+  el.classList.toggle('prog', bcls === 'prog');
+  el.classList.toggle('plan', bcls === 'plan');
+}
+
 function redrawFittedCanvas() {
   fitCanvas();
   clearSVG();
@@ -3042,7 +3059,13 @@ function onSidebarMetaInput() {
   var ti = document.getElementById('side-title-input');
   var bi = document.getElementById('side-badge-input');
   if (ti) document.getElementById('side-title').textContent = ti.value;
-  if (bi) document.getElementById('side-badge').textContent = bi.value;
+  if (bi) {
+    var badge = document.getElementById('side-badge');
+    badge.textContent = bi.value;
+    var bcls = statusClassForBadge(bi.value) || resolvedNodeMeta(sidebarEditId).bcls;
+    var style = BADGE_STYLE[bcls] || BADGE_STYLE.plan;
+    badge.setAttribute('style', style + ';font-size:11px;padding:2px 6px;border-radius:3px;font-weight:500;');
+  }
 }
 
 function saveSidebarEdit() {
@@ -3063,12 +3086,14 @@ function saveSidebarEdit() {
     var newTitle = titleInput.value;
     var newBadge = badgeInput.value;
     var cur = resolvedNodeMeta(id);           // read nsub before overwriting
-    textOverrides[id] = { title: newTitle, badge: newBadge, nsub: cur.nsub };
+    var newBcls = statusClassForBadge(newBadge) || cur.bcls;
+    textOverrides[id] = { title: newTitle, badge: newBadge, bcls: newBcls, nsub: cur.nsub };
     saveTextOverrides();
     var el = document.getElementById('N-' + id);
     if (el) {
       var t = el.querySelector('.ntitle'); if (t) t.textContent = newTitle;
       var b = el.querySelector('.badge');  if (b) b.textContent = newBadge;
+      applyNodeStatusClass(el, newBcls);
     }
     if (customNodes[id]) {
       customNodes[id].title = newTitle;
@@ -3097,8 +3122,8 @@ function cancelSidebarEdit() {
 }
 
 // Resolve a node's title/badge/nsub/bcls the same way the canvas box does, so the
-// sidebar header is always identical to the box. Precedence for text fields:
-// textOverrides → customNodes → DATA; bcls comes from customNodes → DATA.
+// sidebar header is always identical to the box. Persisted text/status overrides
+// take precedence over custom-node metadata and DATA.
 function resolvedNodeMeta(id) {
   var d  = DATA[id]         || {};
   var cn = customNodes[id]  || {};
@@ -3112,7 +3137,7 @@ function resolvedNodeMeta(id) {
     title: pick(ov.title, cn.title, d.title),
     badge: pick(ov.badge, cn.badge, d.badge),
     nsub:  pick(ov.nsub,  cn.nsub,  d.nsub),
-    bcls:  cn.bcls || d.bcls || ''
+    bcls:  ov.bcls || statusClassForBadge(ov.badge) || cn.bcls || d.bcls || ''
   };
 }
 
@@ -4752,6 +4777,16 @@ function loadTextOverrides() {
     lsSet(TEXT_STORAGE_KEY, JSON.stringify(textOverrides));
     lsSet(TEXT_CONTENT_REVISION_KEY, AUTHORITATIVE_CONTENT_REVISION);
   }
+  var statusMigrated = false;
+  Object.keys(textOverrides).forEach(function(id) {
+    var ov = textOverrides[id];
+    if (!ov || ov.bcls) return;
+    var cn = customNodes[id] || {};
+    var d = DATA[id] || {};
+    ov.bcls = statusClassForBadge(ov.badge) || cn.bcls || d.bcls || '';
+    statusMigrated = true;
+  });
+  if (statusMigrated) lsSet(TEXT_STORAGE_KEY, JSON.stringify(textOverrides));
 }
 
 function saveTextOverrides() {
@@ -4761,12 +4796,14 @@ function saveTextOverrides() {
 function applyAllTextOverrides() {
   NODE_IDS.forEach(function(id) {
     var ov = textOverrides[id];
-    if (!ov) return;
     var el = document.getElementById('N-' + id);
     if (!el) return;
-    if (ov.title != null) { var t = el.querySelector('.ntitle'); if (t) t.textContent = ov.title; }
-    if (ov.badge != null) { var b = el.querySelector('.badge');  if (b) b.textContent = ov.badge;  }
-    if (ov.nsub  != null) { var s = el.querySelector('.nsub');   if (s) s.textContent = ov.nsub;   }
+    if (ov) {
+      if (ov.title != null) { var t = el.querySelector('.ntitle'); if (t) t.textContent = ov.title; }
+      if (ov.badge != null) { var b = el.querySelector('.badge');  if (b) b.textContent = ov.badge;  }
+      if (ov.nsub  != null) { var s = el.querySelector('.nsub');   if (s) s.textContent = ov.nsub;   }
+    }
+    applyNodeStatusClass(el, resolvedNodeMeta(id).bcls);
   });
 }
 
@@ -4817,13 +4854,15 @@ function confirmNodeTextEdit() {
   var title = document.getElementById('nte-title').value;
   var badge = document.getElementById('nte-badge').value;
   var nsub  = document.getElementById('nte-nsub').value;
+  var bcls  = statusClassForBadge(badge) || resolvedNodeMeta(id).bcls;
   var el = document.getElementById('N-' + id);
   if (el) {
     var t = el.querySelector('.ntitle'); if (t) t.textContent = title;
     var b = el.querySelector('.badge');  if (b) b.textContent = badge;
     var s = el.querySelector('.nsub');   if (s) s.textContent = nsub;
+    applyNodeStatusClass(el, bcls);
   }
-  textOverrides[id] = { title: title, badge: badge, nsub: nsub };
+  textOverrides[id] = { title: title, badge: badge, bcls: bcls, nsub: nsub };
   saveTextOverrides();
   if (customNodes[id]) {
     customNodes[id].title = title;
