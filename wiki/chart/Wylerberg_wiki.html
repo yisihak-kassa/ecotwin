@@ -1547,7 +1547,7 @@ function idbLoadHandle() {
 // doesn't match the current document is rejected, so commits can never land
 // in a renamed ancestor (e.g. new.html).
 async function getWritableHandle(statusCb) {
-  var fname = decodeURIComponent(location.pathname.split('/').pop() || 'chart.html');
+  var fname = decodeURIComponent(location.pathname.split('/').pop() || 'Wylerberg_wiki.html');
   if (!fileHandle) fileHandle = await idbLoadHandle();
   if (fileHandle && fileHandle.name !== fname) {
     fileHandle = null;

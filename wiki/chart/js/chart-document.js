@@ -1,4 +1,4 @@
-// The editable chart document is embedded in chart.html as JSON. Keeping data
+// The editable chart document is embedded in Iseo_wiki.html as JSON. Keeping data
 // separate from behavior makes Save replace one explicit block and gives the
 // file format a schema version without sacrificing a portable document file.
 var CHART_DOCUMENT_ELEMENT_ID = 'chart-document';

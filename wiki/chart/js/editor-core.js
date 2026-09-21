@@ -267,7 +267,7 @@ function idbLoadHandle() {
 // doesn't match the current document is rejected, so commits can never land
 // in a renamed ancestor (e.g. new.html).
 async function getWritableHandle(statusCb) {
-  var fname = decodeURIComponent(location.pathname.split('/').pop() || 'chart.html');
+  var fname = decodeURIComponent(location.pathname.split('/').pop() || 'Iseo_wiki.html');
   if (!fileHandle) fileHandle = await idbLoadHandle();
   if (fileHandle && fileHandle.name !== fname) {
     fileHandle = null;
@@ -1095,7 +1095,7 @@ function addResizeHandles() {
 
 
 // Saves the whole diagram state, including font sizes, sidebar width and the
-// logical drawing extent, back into the one versioned JSON block in chart.html.
+// logical drawing extent, back into the one versioned JSON block in Iseo_wiki.html.
 async function saveAll() {
   if (READONLY) return;
   var btn = document.getElementById('save-btn');
